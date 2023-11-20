@@ -39,70 +39,52 @@ class TemplateEngineShould {
     // null, null -> ""
     @Test
     fun `foo should spec 1 - null, null returns empty string`() {
-        val rs = TemplateEngine.foo(null, null)
-
-        assertEquals("", rs)
-
+        assertEquals("", TemplateEngine.foo(null, null))
     }
 
     // "", [] -> ""
     @Test
     fun `foo should spec 2 - null, empty map returns empty string`() {
-        val rs = TemplateEngine.foo("hola", mapOf<String, String>())
-
-        assertEquals("hola", rs)
+        assertEquals("hola", TemplateEngine.foo("hola", mapOf<String, String>()))
     }
 
     // "hola", [] -> "hola"
     @Test
     fun `foo should spec 3 - hola return hola`() {
-
-        val rs = TemplateEngine.foo("hola", mapOf<String, String>())
-
-        assertEquals( "hola", rs)
+        assertEquals( "hola", TemplateEngine.foo("hola", mapOf<String, String>()))
 
     }
 
     // "{$var1}", [] -> "{$var1}"
     @Test
     fun `foo should spec 4 - var1 and empty map returns input string`() {
-
-        val rs = TemplateEngine.foo("{\$var1}", mapOf<String, String>())
-
-        assertEquals( "{\$var1}", rs)
+        assertEquals( "{\$var1}", TemplateEngine.foo("{\$var1}", mapOf<String, String>()))
     }
 
     // "{$var1}", [$var2: hola] -> ???
     @Test
     fun `foo should spec 5 - var1 and map with other items returns input string`() {
-
-        val rs = TemplateEngine.foo("{\$var1}", mapOf<String, String>())
-
-        assertEquals( "{\$var1}", rs)
+        assertEquals( "{\$var1}", TemplateEngine.foo("{\$var1}", mapOf<String, String>()))
     }
 
     // "hola {$placeholder}", [$placeholder: mundo] -> "hola mundo"
     @Test
     fun `foo should spec 6 - str with vars and map with item returns string with item`() {
-
-        val rs = TemplateEngine.foo("hola {\$placeholder}", mapOf("{\$placeholder}" to "mundo"))
-        assertEquals( "hola mundo", rs)
-
+        assertEquals( "hola mundo",
+            TemplateEngine.foo("hola {\$placeholder}", mapOf("{\$placeholder}" to "mundo")))
     }
 
     // "hola {$a1} {$b2} {$a1}", [$a1: foo, $b2: bar] -> "hola foo bar foo"
     @Test
     fun `foo should spec 7 - long str many vars + map with many items returns string parsed`() {
-
-        val rs = TemplateEngine.foo("hola {\$a1} {\$b2} {\$a1}", mapOf("{\$a1}" to "foo", "{\$b2}" to "bar"))
-        assertEquals("hola foo bar foo", rs)
+        assertEquals("hola foo bar foo",
+            TemplateEngine.foo("hola {\$a1} {\$b2} {\$a1}", mapOf("{\$a1}" to "foo", "{\$b2}" to "bar")))
     }
 
     // "hola {$a1} {$b2}", [$a1: foo] -> "hola foo {$b2}"
     @Test
     fun `foo should spec 8 - long str many vars + map with not all items returns string semi-parsed`() {
-
-        val rs = TemplateEngine.foo("hola {\$a1} {\$b2}", mapOf("{\$a1}" to "foo"))
-        assertEquals("hola foo {\$b2}", rs)
+        assertEquals("hola foo {\$b2}",
+            TemplateEngine.foo("hola {\$a1} {\$b2}", mapOf("{\$a1}" to "foo")))
     }
 }
