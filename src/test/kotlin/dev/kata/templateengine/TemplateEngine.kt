@@ -20,7 +20,7 @@ class TemplateEngineShould {
         TODO-list: especificacion de requisitos.
 
         1 - null, null -> ""
-        2 - "", [] -> ???
+        2 - "", [] -> ""
         3 - "hola", [] -> "hola"
         4 - "{$var1}", [] -> ???
         5 - "{$var1}", [$var2: hola] -> ???
@@ -29,20 +29,28 @@ class TemplateEngineShould {
         8 - "hola {$a1} {$b2}", [$a1: foo] -> ???
 
      */
-    @Test
-    fun `foo should spec 3 - hola return hola`() {
-
-        val rs = TemplateEngine.foo("hola", mapOf<String, String>())
-
-        assertEquals(rs, "hola")
-
-    }
 
     @Test
     fun `foo should spec 1 - null, null returns empty string`() {
         val rs = TemplateEngine.foo(null, null)
 
-        assertEquals(rs, "")
+        assertEquals("", rs)
+
+    }
+
+    @Test
+    fun `foo should spec 2 - null, empty map returns empty string`() {
+        val rs = TemplateEngine.foo("hola", mapOf<String, String>())
+
+        assertEquals("hola", rs)
+    }
+
+    @Test
+    fun `foo should spec 3 - hola return hola`() {
+
+        val rs = TemplateEngine.foo("hola", mapOf<String, String>())
+
+        assertEquals( "hola", rs)
 
     }
 }
