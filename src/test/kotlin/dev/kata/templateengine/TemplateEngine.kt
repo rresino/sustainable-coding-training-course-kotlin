@@ -32,7 +32,7 @@ class TemplateEngineShould {
         5 - "{$var1}", [$var2: hola] - "{$var1}"
         6 - "hola {$placeholder}", [$placeholder: mundo] -> "hola mundo"
         7 - "hola {$a1} {$b2} {$a1}", [$a1: foo, $b2: bar] -> "hola foo bar foo"
-        8 - "hola {$a1} {$b2}", [$a1: foo] -> ???
+        8 - "hola {$a1} {$b2}", [$a1: foo] -> "hola foo {$b2}"
 
      */
 
@@ -96,5 +96,13 @@ class TemplateEngineShould {
 
         val rs = TemplateEngine.foo("hola {\$a1} {\$b2} {\$a1}", mapOf("{\$a1}" to "foo", "{\$b2}" to "bar"))
         assertEquals("hola foo bar foo", rs)
+    }
+
+    // "hola {$a1} {$b2}", [$a1: foo] -> "hola foo {$b2}"
+    @Test
+    fun `foo should spec 8 - long str many vars + map with not all items returns string semi-parsed`() {
+
+        val rs = TemplateEngine.foo("hola {\$a1} {\$b2}", mapOf("{\$a1}" to "foo"))
+        assertEquals("hola foo {\$b2}", rs)
     }
 }
