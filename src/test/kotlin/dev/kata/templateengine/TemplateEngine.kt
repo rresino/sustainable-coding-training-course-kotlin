@@ -23,7 +23,7 @@ class TemplateEngineShould {
         2 - "", [] -> ""
         3 - "hola", [] -> "hola"
         4 - "{$var1}", [] -> "{$var1}"
-        5 - "{$var1}", [$var2: hola] -> ???
+        5 - "{$var1}", [$var2: hola] - "{$var1}"
         6 - "hola {$placeholder}", [$placeholder: mundo] -> "hola mundo"
         7 - "hola {$a1} {$b2} {$a1}", [$a1: foo, $b2: bar] -> "hola foo bar foo"
         8 - "hola {$a1} {$b2}", [$a1: foo] -> ???
@@ -59,11 +59,19 @@ class TemplateEngineShould {
 
     // "{$var1}", [] -> "{$var1}"
     @Test
-    fun `foo should spec 4 - var1 and empty map returns empty string`() {
+    fun `foo should spec 4 - var1 and empty map returns input string`() {
 
         val rs = TemplateEngine.foo("{\$var1}", mapOf<String, String>())
 
         assertEquals( "{\$var1}", rs)
     }
 
+    // "{$var1}", [$var2: hola] -> ???
+    @Test
+    fun `foo should spec 5 - var1 and map with other items returns input string`() {
+
+        val rs = TemplateEngine.foo("{\$var1}", mapOf<String, String>())
+
+        assertEquals( "{\$var1}", rs)
+    }
 }
