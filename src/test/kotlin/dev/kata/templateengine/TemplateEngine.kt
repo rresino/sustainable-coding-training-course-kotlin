@@ -7,7 +7,13 @@ class TemplateEngine {
 
     companion object {
         fun foo(template: String?, vars: Map<String, String>?): String {
-            return template?:""
+            var str = template?:""
+
+            vars?.forEach {
+                str = str.replace(it.key, it.value)
+            }
+
+            return str
         }
     }
 
@@ -73,5 +79,22 @@ class TemplateEngineShould {
         val rs = TemplateEngine.foo("{\$var1}", mapOf<String, String>())
 
         assertEquals( "{\$var1}", rs)
+    }
+
+    // "hola {$placeholder}", [$placeholder: mundo] -> "hola mundo"
+    @Test
+    fun `foo should spec 6 - str with vars and map with item returns string with item`() {
+
+        val rs = TemplateEngine.foo("hola {\$placeholder}", mapOf("{\$placeholder}" to "mundo"))
+        assertEquals( "hola mundo", rs)
+
+    }
+
+    // "hola {$a1} {$b2} {$a1}", [$a1: foo, $b2: bar] -> "hola foo bar foo"
+    @Test
+    fun `foo should spec 7 - long str many vars + map with many items returns string parsed`() {
+
+        val rs = TemplateEngine.foo("hola {\$a1} {\$b2} {\$a1}", mapOf("{\$a1}" to "foo", "{\$b2}" to "bar"))
+        assertEquals("hola foo bar foo", rs)
     }
 }
