@@ -6,8 +6,8 @@ import kotlin.test.assertEquals
 class TemplateEngine {
 
     companion object {
-        fun foo(s: String, vars: Map<String, String>) {
-
+        fun foo(template: String, vars: Map<String, String>): String {
+            return template
         }
     }
 
@@ -30,11 +30,11 @@ class TemplateEngineShould {
 
      */
     @Test
-    fun foo(str: String, vars: Map<String, String>) {
+    fun foo() {
 
         val rs = TemplateEngine.foo("hola", mapOf<String, String>())
 
-        assertEquals(str, "hola")
+        assertEquals(rs, "hola")
 
     }
 }
